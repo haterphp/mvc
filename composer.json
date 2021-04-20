@@ -1,0 +1,19 @@
+{
+    "name": "noroff/mvc",
+    "authors": [
+        {
+            "name": "noroff",
+            "email": "noroff.vladislav@gmail.com"
+        }
+    ],
+    "description": "",
+    "autoload": {
+        "psr-4": {
+            "Core\\": "core/",
+            "App\\": "app/"
+        }
+    },
+    "require": {
+        "twig/twig": "^3.0"
+    }
+}

@@ -2,6 +2,7 @@
 
 namespace Core\App\Src;
 
+use App\Providers\RouteProvider;
 use Core\App\Src\Interfaces\AppInterface;
 use Core\Router\Router;
 
@@ -13,7 +14,19 @@ abstract class BaseApp implements AppInterface {
     public function __construct()
     {
         $this->getConfigs();
+
+        $this->providersStart();
+
         $this->router = Router::init();
+        require ROOT_PATH . '/' . 'routes/index.php';
+    }
+
+    public function providersStart()
+    {
+        require ROOT_PATH . '/' . 'app/Providers/providers.php';
+        foreach ($providers as $provider){
+            $provider::boot();
+        }
     }
 
     public function router()

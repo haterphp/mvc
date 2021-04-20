@@ -2,6 +2,45 @@
 
 namespace Core\Router;
 
+use Core\Request\Request;
 use Core\Router\Src\BaseRouter;
+use Core\Router\Src\Interfaces\RouterInterface;
+use Core\Router\Src\Traits\RouterHttpMethods;
 
-class Router extends BaseRouter {}
+class Router extends BaseRouter implements RouterInterface {
+
+    use RouterHttpMethods;
+
+    public static $routes;
+    private static $prefix;
+
+    public static function prefix($value)
+    {
+        self::$prefix = $value;
+    }
+
+    public static function init()
+    {
+        self::$routes = collect([]);
+        return (new self);
+    }
+
+    public function start()
+    {
+        $routes = $this->getRoutes();
+        $path = explode('?', $_SERVER['REQUEST_URI'])[0];
+        $path = ($path[0] !== '/') ? '/' : '' . str_replace(Router::$prefix, '', $path);
+        $routes = $routes->search('url', $path);
+        if(!$routes->count()) throw new \Exception("Route $path not found");
+        $route = $routes->search('method', $_SERVER['REQUEST_METHOD']);
+        if(!$route->count()) throw new \Exception("Not supported method. Supported methods: " . $routes->first()->method);
+        $route = $route->first();
+        if(isset($route->handler)) echo call_user_func($route->handler, new Request());
+        else echo call_user_func([new $route->controller, $route->action], new Request());
+    }
+
+    public function getRoutes()
+    {
+        return Router::$routes;
+    }
+}

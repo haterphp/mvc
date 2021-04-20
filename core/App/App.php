@@ -7,8 +7,7 @@ use Core\App\Src\BaseApp;
 class App extends BaseApp {
 
     protected function getConfigs(){
-        $ENV = env(ROOT_PATH . '/.env');
-        dd($ENV->qwe);
+        env(ROOT_PATH . '/.env');
         $this->configs = require ROOT_PATH . '/configs/app.php';
     }
 }

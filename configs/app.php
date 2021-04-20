@@ -2,7 +2,10 @@
 
 $configs = [
     'mysql' => [
-        'host' => $ENV['DB_HOST']
+        'host' => getenv('DB_HOST') . ':' . getenv('DB_PORT'),
+        'username' => getenv('DB_USERNAME'),
+        'password' => getenv('DB_PASSWORD'),
+        'database' => getenv('DB_DATABASE'),
     ]
 ];
 

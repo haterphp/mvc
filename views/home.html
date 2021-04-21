@@ -1,6 +1,36 @@
 {% extends "layouts/base.html" %}
 
-{% block title %}Blog - Главаная{% endblock %}
+{% block styles %}
+    <style>
+        .panel{
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .panel.start-panel{
+            min-height: 0;
+            height: 90vh;
+        }
+
+        .panel-image{
+            height: 450px;
+        }
+    </style>
+{% endblock %}
+
+
+{% block title %}Young Browlers - Главаная{% endblock %}
 {% block content %}
-    <h1>1321</h1>
+    <article class="panel start-panel">
+        <div class="container h-100 d-flex align-items-center">
+            <div class="wrap d-flex align-items-center justify-content-between">
+                <div class="wrap content mr-5">
+                    <h1 class="h2">Young Browlers</h1>
+                    <p>Команда первоклассных специалистов в <br>области разработки веб-сайтов с многолетним опытом.</p>
+                    <a href="#" class="btn btn-primary mt-3">Посмотреть Портфолио</a>
+                </div>
+                <img src="/public/assets/images/panel-main.png" alt="panel-image" class="panel-image">
+            </div>
+        </div>
+    </article>
 {% endblock %}

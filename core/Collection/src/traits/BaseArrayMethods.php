@@ -21,8 +21,10 @@ trait BaseArrayMethods{
 
     public function only(...$attrs)
     {
+        if(gettype($attrs[0]) === 'array') $attrs = $attrs[0];
         $tmp = collect([]);
         foreach ($attrs as $attr){
+            if(!isset($this->array[$attr])) continue;
             $tmp->push($this->array[$attr]);
         }
         return $tmp;
@@ -44,5 +46,10 @@ trait BaseArrayMethods{
     public function count()
     {
         return count($this->array);
+    }
+
+    public function toArray()
+    {
+        return $this->array;
     }
 }

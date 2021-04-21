@@ -1,5 +1,16 @@
-RewriteEngine On
+<IfModule mod_rewrite.c>>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-RewriteCond %{REQUEST_URI} !\.(?:css|js|jpe?g|gif|png)$ [NC]
-RewriteRule ^(.*)$ index.php [L]
-RewriteRule ^abc/[^/]+/[^/]+/(.+)$ $1  [L]
+    RewriteEngine On
+
+    <IfModule mod_speling.c>
+        CheckCaseOnly on
+        CheckSpelling on
+    </IfModule>
+
+    RewriteCond %{REQUEST_URI} !\.(?:css|js|jpe?g|gif|png)$ [NC]
+    RewriteRule ^(.*)$ index.php [L]
+    RewriteRule ^abc/[^/]+/[^/]+/(.+)$ $1  [L]
+</IfModule>

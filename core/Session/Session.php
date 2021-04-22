@@ -2,23 +2,22 @@
 
 namespace Core\Session;
 
-class Session{
-    public function __construct() {
-        $_SESSION['flash'] = [];
-    }
+use Core\Session\Src\Interfaces\SessionInterface;
 
-    public function with($name, $body)
+class Session implements SessionInterface{
+
+    public static function set($name, $value): void
     {
-        $_SESSION['flash'][$name] = $body;
+        $_SESSION[$name] = $value;
     }
 
     public static function get($name)
     {
-        return isset($_SESSION['flash'][$name]) ? $_SESSION['flash'][$name] : null;
+        return isset($_SESSION[$name]) ? $_SESSION[$name] : null;
     }
 
     public static function clear($name)
     {
-        unset($_SESSION['flash'][$name]);
+        unset($_SESSION[$name]);
     }
 }

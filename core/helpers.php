@@ -1,6 +1,6 @@
 <?php
 
-use Core\Session\Session;
+use Core\Session\SessionFlash;
 
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
 define('HOST_URI', $_SERVER['HTTP_HOST']);
@@ -31,12 +31,12 @@ function route($name){
 
 function redirect($url){
     header('Location: '. $url);
-    return (new Session);
+    return (new SessionFlash);
 }
 
 function session($name){
-    $session = Session::get($name);
-    Session::clear($name);
+    $session = SessionFlash::get($name);
+    SessionFlash::clear($name);
     return $session;
 }
 

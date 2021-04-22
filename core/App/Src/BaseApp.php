@@ -27,7 +27,7 @@ abstract class BaseApp implements AppInterface {
 
     public function providersStart()
     {
-        require ROOT_PATH . '/configs/providers.php';
+        $providers = require ROOT_PATH . '/configs/providers.php';
         foreach ($providers as $provider){
             $provider::boot();
         }

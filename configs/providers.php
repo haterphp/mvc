@@ -1,5 +1,5 @@
 <?php
 
-$providers = [
+return [
     \App\Providers\RouteProvider::class
 ];

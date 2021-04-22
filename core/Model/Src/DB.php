@@ -45,4 +45,12 @@ class DB{
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($body);
     }
+
+    public static function destroy($id, $table)
+    {
+        self::connect();
+        $query = "DELETE FROM $table WHERE id=$id";
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute();
+    }
 }

@@ -1,14 +1,5 @@
 <IfModule mod_rewrite.c>>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
     RewriteEngine On
-
-    <IfModule mod_speling.c>
-        CheckCaseOnly on
-        CheckSpelling on
-    </IfModule>
 
     RewriteCond %{REQUEST_URI} !\.(?:css|js|jpe?g|gif|png)$ [NC]
     RewriteRule ^(.*)$ index.php [L]

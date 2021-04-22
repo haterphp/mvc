@@ -12,7 +12,7 @@ class Router extends BaseRouter implements RouterInterface {
     use RouterHttpMethods;
 
     public static $routes;
-    public static $prefix;
+    public static $prefix = "";
 
     public static function prefix($value)
     {
@@ -28,12 +28,17 @@ class Router extends BaseRouter implements RouterInterface {
     public function start()
     {
         $routes = $this->getRoutes();
+        
         $path = explode('?', $_SERVER['REQUEST_URI'])[0];
-        $path = ($path[0] !== '/') ? '/' : '' . str_replace(Router::$prefix, '', $path);
+        $path = str_replace(Router::$prefix, '', $path);
+        if($path === "") $path = "/";
+
         $routes = $routes->search('url', $path);
         if(!$routes->count()) throw new \Exception("Route $path not found");
+        
         $route = $routes->search('method', $_SERVER['REQUEST_METHOD']);
         if(!$route->count()) throw new \Exception("Not supported method. Supported methods: " . $routes->first()->method);
+        
         $route = $route->first();
         if(isset($route->handler)) echo call_user_func($route->handler, new Request());
         else echo call_user_func([new $route->controller, $route->action], new Request());

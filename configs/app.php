@@ -1,6 +1,6 @@
 <?php
 
-$configs = [
+return [
     'mysql' => [
         'host' => env('DB_HOST') . ':' . env('DB_PORT'),
         'username' => env('DB_USERNAME'),
@@ -8,5 +8,3 @@ $configs = [
         'database' => env('DB_DATABASE'),
     ]
 ];
-
-return $configs;

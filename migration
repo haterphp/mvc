@@ -23,9 +23,7 @@ function migrate($args){
 
 function call_cmd($command, $args = []){
     global $functions;
-
     $retval = call_user_func($functions[$command]['func'], $args);
-
     echo 'Код возврата: ' . $retval;
 }
 

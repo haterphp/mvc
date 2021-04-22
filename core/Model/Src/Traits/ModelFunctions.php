@@ -65,4 +65,10 @@ trait ModelFunctions{
         DB::update($this->rows[0]['id'], (new static)->table, self::bodyInsertFormatter((new static)->fillable, $insert_body, $body), $insert_body);
         return $this->where(['id' => $this->rows[0]['id']])->first();
     }
+
+    public function delete()
+    {
+        DB::destroy($this->rows[0]['id'], (new static)->table);
+        return true;
+    }
 }

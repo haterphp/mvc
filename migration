@@ -1,0 +1,32 @@
+<?php
+
+global $config;
+$config = " --configuration configs/phinx.php";
+
+global $functions;
+$functions = [
+    'create' => ["func" => "create_migration", "args" => true],
+    'migrate' => ["func" => "migrate", "args" => false],
+];
+
+function create_migration($args){
+    global $config;
+    system('php ./vendor/bin/phinx create ' . $args[2] . $config, $retval);
+    return $retval;
+}
+
+function migrate($args){
+    global $config;
+    system('php ./vendor/bin/phinx migrate' . $config, $retval);
+    return $retval;
+}
+
+function call_cmd($command, $args = []){
+    global $functions;
+
+    $retval = call_user_func($functions[$command]['func'], $args);
+
+    echo 'Код возврата: ' . $retval;
+}
+
+call_cmd($argv[1], $argv);

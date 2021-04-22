@@ -14,11 +14,6 @@ function collect($array){
     return new Core\Collection\Collection($array);
 }
 
-function env($filepath){
-    $env = \Core\Env\Env::createInstance($filepath);
-    $env->load();
-    return $env;
-}
 
 function view($template, $body = []){
     $loader = new \Twig\Loader\FilesystemLoader(ROOT_PATH . '/views');

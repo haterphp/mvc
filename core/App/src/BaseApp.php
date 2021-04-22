@@ -5,6 +5,7 @@ namespace Core\App\Src;
 use App\Providers\RouteProvider;
 use Core\App\Src\Interfaces\AppInterface;
 use Core\Router\Router;
+use Dotenv\Dotenv;
 
 abstract class BaseApp implements AppInterface {
 
@@ -13,6 +14,9 @@ abstract class BaseApp implements AppInterface {
 
     public function __construct()
     {
+        $dotenv = Dotenv::createMutable(ROOT_PATH);
+        $dotenv->load();
+
         $this->getConfigs();
 
         $this->providersStart();

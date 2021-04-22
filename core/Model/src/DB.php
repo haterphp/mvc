@@ -20,7 +20,7 @@ class DB{
         self::$pdo = $conn;
     }
 
-    public static function select($table, $query, $args)
+    public static function select($table, $query = "", $args = null)
     {
         self::connect();
         $query = "SELECT * FROM $table " . $query ;
@@ -36,5 +36,13 @@ class DB{
         $stmt = self::$pdo->prepare($query);
         $stmt->execute($body);
         return self::$pdo->lastInsertId();
+    }
+
+    public static function update($id, $table, $query, $body)
+    {
+        self::connect();
+        $query = "UPDATE $table SET " . $query . " WHERE id=$id";
+        $stmt = self::$pdo->prepare($query);
+        $stmt->execute($body);
     }
 }

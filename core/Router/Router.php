@@ -12,7 +12,7 @@ class Router extends BaseRouter implements RouterInterface {
     use RouterHttpMethods;
 
     public static $routes;
-    private static $prefix;
+    public static $prefix;
 
     public static function prefix($value)
     {

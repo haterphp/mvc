@@ -6,6 +6,7 @@ trait RouterHttpMethods{
     public function methodBind(&$route)
     {
         $this->current_route = $route;
+        return $this;
     }
 
     public static function methodPush($method, $url, $handler)
@@ -19,29 +20,30 @@ trait RouterHttpMethods{
         [ $controller, $action ] = $handler;
         $route = compact('url', 'controller', 'action' , 'method');
         static::$routes->push($route);
+        return $route;
     }
 
     public static function get($url, $handler)
     {
-        self::methodPush('GET', $url, $handler);
+        $route = self::methodPush('GET', $url, $handler);
         return (new static)->methodBind($route);
     }
 
     public static function post($url, $handler)
     {
-        self::methodPush('POST', $url, $handler);
+        $route = self::methodPush('POST', $url, $handler);
         return (new static)->methodBind($route);
     }
 
     public static function put($url, $handler)
     {
-        self::methodPush('PUT', $url, $handler);
+        $route = self::methodPush('PUT', $url, $handler);
         return (new static)->methodBind($route);
     }
 
     public static function delete($url, $handler)
     {
-        self::methodPush('DELETE', $url, $handler);
+        $route = self::methodPush('DELETE', $url, $handler);
         return (new static)->methodBind($route);
     }
 }

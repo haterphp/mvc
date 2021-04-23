@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Core\Auth\Auth;
 use Core\Request\Request;
 use Core\Validator\Validator;
 
@@ -13,10 +14,15 @@ class UserController extends Controller {
         return view('auth/login');
     }
 
-    public function update(Request $request): void
+    public function update(Request $request)
     {
-
-        dd($request->all());
+        if(!Auth::attempt($request->only('email', 'password'))){
+            return redirect(route('login'))->with('alert', [
+                'status' => 'danger',
+                'message' => 'Не верный логин или пароль'
+            ]);
+        }
+        return redirect(route('home'));
     }
 
     public function create()
@@ -39,10 +45,16 @@ class UserController extends Controller {
         User::create([
             'username' => $request->get('username'),
             'email' => $request->get('email'),
-            'password' => md5($request->get('password')),
+            'password' => password_hash($request->get('password'), PASSWORD_DEFAULT),
             'role_id' => 2,
         ]);
 
+        return redirect(route('home'));
+    }
+
+    public function logout()
+    {
+        Auth::logout();
         return redirect(route('home'));
     }
 }

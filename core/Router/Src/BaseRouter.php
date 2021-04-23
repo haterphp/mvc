@@ -13,15 +13,17 @@ class BaseRouter {
 
     public function name($name)
     {
-        $this->current_route['name'] = $name;
         $routes = &Router::$routes;
         $route = $routes->search('url', $this->current_route['url'])->search('method', $this->current_route['method'])->first();
         $route->name = $name;
         return $this;
     }
 
-    public function middleware(...$middleware)
+    public function middleware(...$middlewares)
     {
-
+        $routes = &Router::$routes;
+        $route = $routes->search('url', $this->current_route['url'])->search('method', $this->current_route['method'])->first();
+        $route->middlewares = $middlewares;
+        return $this;
     }
 }

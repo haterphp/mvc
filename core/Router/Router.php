@@ -40,8 +40,22 @@ class Router extends BaseRouter implements RouterInterface {
         if(!$route->count()) throw new \Exception("Not supported method. Supported methods: " . $routes->first()->method);
         
         $route = $route->first();
+
+        if(!$this->startMiddlewares($route)) throw new \Exception('Request not authorized');
         if(isset($route->handler)) echo call_user_func($route->handler, new Request());
         else echo call_user_func([new $route->controller, $route->action], new Request());
+    }
+
+    public function startMiddlewares($route)
+    {
+        global $app;
+        if(!isset($route->middlewares)) return true;
+        $middlewares = $app->configs()['middlewares'];
+        foreach($route->middlewares as $middleware){
+            $args = explode(':', $middleware);
+            if(!$middlewares[$args[0]]::run($route, $args, new Request())) return false;
+        }
+        return true;
     }
 
     public function getRoutes()

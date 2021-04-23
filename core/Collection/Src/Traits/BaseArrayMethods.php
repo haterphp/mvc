@@ -19,15 +19,26 @@ trait BaseArrayMethods{
         return $this->array;
     }
 
+    public function except(...$attrs)
+    {
+        if(gettype($attrs[0]) === 'array') $attrs = $attrs[0];
+        $tmp = $this->array;
+        foreach ($attrs as $attr){
+            if(!isset($this->array[$attr])) continue;
+            unset($tmp[$attr]);
+        }
+        return collect($tmp);
+    }
+
     public function only(...$attrs)
     {
         if(gettype($attrs[0]) === 'array') $attrs = $attrs[0];
-        $tmp = collect([]);
+        $tmp = [];
         foreach ($attrs as $attr){
             if(!isset($this->array[$attr])) continue;
-            $tmp->push($this->array[$attr]);
+            $tmp[$attr] = $this->array[$attr];
         }
-        return $tmp;
+        return collect($tmp);
     }
 
     public function first()

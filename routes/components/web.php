@@ -11,3 +11,6 @@ Router::post('login', [UserController::class, 'update'])->name('login.store');
 
 Router::get('register', [UserController::class, 'create'])->name('register');
 Router::post('register', [UserController::class, 'store'])->name('register.store');
+
+Router::get('logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
+

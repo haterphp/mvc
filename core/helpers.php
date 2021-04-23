@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Role;
+use Core\Auth\Auth;
 use Core\Session\SessionFlash;
 
 define('ROOT_PATH', $_SERVER['DOCUMENT_ROOT']);
@@ -15,6 +17,18 @@ function dd($data){
 
 function collect($array){
     return new Core\Collection\Collection($array);
+}
+
+function auth(){
+    return Auth::init();
+}
+
+function can($ability){
+    if(!Auth::check()) return false;
+    $user = auth()->user();
+    return $user;
+    $role = Role::query()->where(['id' => $user['role_id']])->first();
+    return $role['name'] === $ability;
 }
 
 function route($name){
@@ -54,8 +68,19 @@ function view($template, $body = []){
         return session($name);
     });
 
+    $auth_func = new \Twig\TwigFunction('auth', function (){
+        return auth();
+    });
+
+    $can_func = new \Twig\TwigFunction('can', function ($ability){
+        return can($ability);
+    });
+
     $twig->addFunction($route_func);
     $twig->addFunction($session_func);
+    $twig->addFunction($auth_func);
+    $twig->addFunction($can_func);
+
     $twig->addExtension(new \Twig\Extension\DebugExtension());
     $temp = $twig->load($template . '.html');
 

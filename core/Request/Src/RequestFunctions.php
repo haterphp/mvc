@@ -12,4 +12,9 @@ trait RequestFunctions {
     {
         return $this->body->get($field);
     }
+
+    public function only(...$args)
+    {
+        return $this->body->only($args)->toArray();
+    }
 }

@@ -23,6 +23,7 @@ final class CreateCommentMigration extends AbstractMigration
             ->addColumn('comment', 'string')
             ->addColumn('user_id', 'integer')
             ->addColumn('news_id', 'integer')
+            ->addColumn('is_blocked', 'integer', ['default' => 0])
             ->addForeignKey('user_id', 'users', 'id', ['delete' => 'CASCADE'])
             ->addForeignKey('news_id', 'newses', 'id', ['delete' => 'CASCADE'])
             ->addTimestamps()

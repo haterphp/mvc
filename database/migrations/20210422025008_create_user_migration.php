@@ -27,18 +27,6 @@ final class CreateUserMigration extends AbstractMigration
             ->addIndex(['email'], ['unique' => true])
             ->addForeignKey('role_id', 'roles', 'id', ['delete' => 'CASCADE'])
             ->create();
-
-        if($this->isMigratingUp()){
-            $rows = [
-                'id'    => 1,
-                'username'  => 'admin',
-                'email'  => 'admin@info.com',
-                'password'  => md5('admin'),
-                'role_id'  => 1,
-            ];
-
-            $this->table('users')->insert($rows)->save();
-        }
     }
 
     public function down(): void

@@ -7,7 +7,35 @@ global $functions;
 $functions = [
     'create' => ["func" => "create_migration", "args" => true],
     'migrate' => ["func" => "migrate", "args" => false],
+    'drop' => ["func" => "drop", "args" => false],
+    'rollback' => ["func" => "rollback", "args" => false],
+    'seed:create' => ["func" => "seed_create", "args" => true],
+    'seed:run' => ["func" => "seed_run", "args" => false],
 ];
+
+function seed_run($args){
+    global $config;
+    system('php ./vendor/bin/phinx seed:run' . $config, $retval);
+    return $retval;
+}
+
+function seed_create($args){
+    global $config;
+    system('php ./vendor/bin/phinx seed:create ' . $args[2] . $config, $retval);
+    return $retval;
+}
+
+function rollback($args){
+    global $config;
+    system('php ./vendor/bin/phinx rollback' . $config, $retval);
+    return $retval;
+}
+
+function drop($args){
+    global $config;
+    system('php ./vendor/bin/phinx rollback -t 0' . $config, $retval);
+    return $retval;
+}
 
 function create_migration($args){
     global $config;

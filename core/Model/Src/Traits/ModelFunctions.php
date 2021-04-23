@@ -28,16 +28,21 @@ trait ModelFunctions{
     }
 
     public function first(){
-        return $this->rows[array_key_first($this->rows)];
+        return $this->rows[array_key_first($this->rows)] ?? null;
+    }
+
+    public function count()
+    {
+        return count($this->rows);
     }
 
     protected static function bodySelectFormatter($args){
         $set = 'WHERE ';
         if(!count($args)) return "";
         foreach ($args as $arg) {
-            $set.="`".str_replace("`","``",$arg)."`". "=:$arg, ";
+            $set.="`".str_replace("`","``",$arg)."`". "=:$arg and ";
         }
-        return substr($set, 0, -2);
+        return substr($set, 0, -5);
     }
 
     protected static function bodyInsertFormatter($allowed, &$values, $source = array()){

@@ -26,21 +26,31 @@ function auth(){
 function can($ability){
     if(!Auth::check()) return false;
     $user = auth()->user();
-    return $user;
     $role = Role::query()->where(['id' => $user['role_id']])->first();
     return $role['name'] === $ability;
 }
 
-function route($name){
+function route($name, $params = null){
     global $app;
     $route = $app->router()->getRoutes()->search('name', $name)->first();
-    
+
+    if(!$route) throw new Exception('Route not round');
+
     $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
+    
+    $query = "";
+    if($params){
+        $query = "?";
+        $params = collect($params)->keys()->map(function($key) use($params){
+            return $key . '=' . $params[$key];
+        })->toArray();
+        $query .= implode('&', $params);
+    }
 
     $url = $route->url;
     if($route->url === "/") $url = "";
     
-    return $protocol . HOST_URI  . \Core\Router\Router::$prefix . $url ?? '';
+    return $protocol . HOST_URI  . \Core\Router\Router::$prefix . $url . $query ?? '';
 }
 
 function redirect($url){
@@ -60,8 +70,8 @@ function view($template, $body = []){
         'debug' => true
     ]);
 
-    $route_func = new \Twig\TwigFunction('route', function ($name){
-        return route($name);
+    $route_func = new \Twig\TwigFunction('route', function ($name, $params = null){
+        return route($name, $params);
     });
 
     $session_func = new \Twig\TwigFunction('session', function ($name){

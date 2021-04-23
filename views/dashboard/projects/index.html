@@ -1,0 +1,99 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block header %}
+    <h1 class="h2">Портфолио</h1>
+    <a href="{{ route('dashboard.projects.create') }}" class="btn btn-success">Добавить проект</a>
+{% endblock %}
+
+{% block content %}
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Название</th>
+                <th scope="col">Описание</th>
+                <th scope="col">Ссылка на сайт</th>
+                <th scope="col">Дополнительные ссылки</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for project in projects %}         
+                <tr>
+                    <th scope="row">{{ project.id }}</th>
+                    <td>{{ project.title }}</td>
+                    <td>{{ project.description }}</td>
+                    <td><a target="_blank" href="{{ project.site }}" class="btn-link">{{ project.site }}</a></td>
+                    <td>
+                        <ul>
+                            {% for link in project.links %}
+                                <li>
+                                    <a target="_blank" href="{{ link }}" class="btn-link">{{ link }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-link dropdown-toggle dropdown-toggle-no-after" data-toggle="dropdown" aria-haspopup="false" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" width="20px" height="20px" x="0px" y="0px" viewBox="0 0 384 384" style="enable-background:new 0 0 384 384;" xml:space="preserve">
+                                    <g>
+                                        <g>
+                                            <circle cx="192" cy="42.667" r="42.667"/>
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <circle cx="192" cy="192" r="42.667"/>
+                                        </g>
+                                    </g>
+                                    <g>
+                                        <g>
+                                            <circle cx="192" cy="341.333" r="42.667"/>
+                                        </g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    <g>
+                                    </g>
+                                    </svg>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a href="{{ route('dashboard.projects.delete', { project: project.id }) }}" class="dropdown-item text-danger">Удалить</a>
+                                <a href="{{ route('dashboard.projects.edit', { project: project.id }) }}" class="dropdown-item text-primary">Изменить</a>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

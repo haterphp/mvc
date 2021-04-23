@@ -11,4 +11,10 @@ class Project extends Model{
         'description',
         'site'
     ];
+
+    public static function links($id)
+    {
+        return ProjectLink::query()->where(['project_id' => $id])->get();
+
+    }
 }

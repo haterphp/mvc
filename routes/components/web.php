@@ -1,11 +1,11 @@
 <?php
 
 use \Core\Router\Router;
-use \App\Http\Controllers\NewsController;
+use \App\Http\Controllers\SiteController;
 use \App\Http\Controllers\UserController;
 use \App\Http\Controllers\Dashboard\ProjectController as DashboardProjectController;
 
-Router::get('/', [NewsController::class, 'index'])->name('home');
+Router::get('/', [SiteController::class, 'index'])->name('home');
 
 Router::get('login', [UserController::class, 'login'])->name('login');
 Router::post('login', [UserController::class, 'update'])->name('login.store');

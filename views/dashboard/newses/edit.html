@@ -1,0 +1,29 @@
+{% extends "layouts/dashboard.html" %}
+
+{% set errors = session('errors') %}
+
+{% block header %}
+    <h1 class="h2">Редактирование новости {{ news.title }}</h1>
+{% endblock %}
+
+{% block content %}
+<div class="wrap">
+    <div class="row">
+        <div class="col-md-6 col-12">
+            <form action="{{ route('dashboard.newses.update', { news: news.id }) }}" enctype="multipart/form-data" method="POST">
+                <div class="form-group">
+                    <label>Название</label>            
+                    <input type="text" class="form-control {% if errors.title %} is-invalid {% endif %}" value="{{ news.title }}" name="title">
+                    <small class="invalid-feedback">{{ errors.title }}</small>
+                </div>
+                <div class="form-group">
+                    <label>Описание</label>            
+                    <textarea class="form-control {% if errors.description %} is-invalid {% endif %}" name="description">{{ news.description }}</textarea>
+                    <small class="invalid-feedback">{{ errors.description }}</small>
+                </div>
+                <button class="btn btn-success">Изменить новость</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -12,6 +12,7 @@ class Required extends AbstractValidator implements ValidatorInterface{
 
     public function rule($args, $value)
     {
+        if(gettype($value) === 'array') return $value['size'];
         return $value !== "";
     }
 

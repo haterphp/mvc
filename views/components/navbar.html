@@ -26,14 +26,17 @@
                         <a class="nav-link" href="{{ route('login') }}">Вход</a>
                     </li>
                 {% else %}
-                    {% if can('admin') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard.projects') }}">Панель Управления</a>
-                        </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}">Выход</a>
-                    </li>
+                    <div class="dropdown">
+                        <a class="nav-link dropdown-toggle" type="button" id="auth-nav-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ auth().user().username }}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="auth-nav-dropdown">
+                            {% if can('admin') %}
+                                <a class="dropdown-item" href="{{ route('dashboard.projects') }}">Панель Управления</a>
+                            {% endif %}
+                            <a class="dropdown-item" href="{{ route('logout') }}">Выход</a>
+                        </div>
+                    </div>
                 {% endif %}
             </ul>
         </div>

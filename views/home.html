@@ -3,12 +3,16 @@
 {% block styles %}
     <style>
         .panel{
-            min-height: 100vh;
+            min-height: 50vh;
             position: relative;
         }
 
         .panel-image{
             height: 450px;
+        }
+
+        .start-panel{
+            height: 95vh;
         }
     </style>
 {% endblock %}
@@ -42,15 +46,17 @@
                                 <div class="card-body">
                                     <h5 class="card-title">{{ project.title }}</h5>
                                     <p class="card-text">{{ project.description }}</p>
-                                    <p class="card-text text-muted">Ссылки на дополнительные ресурсы:</p>
-                                    <ul>
-                                        {% for link in project.links %}    
-                                            <li>
-                                                <a href="{{ link }}" class="btn-link">{{ link }}</a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
-                                    <a href="{{ project.site }}" class="btn btn-primary">Посмотреть проект</a>
+                                    {% if project.links %}    
+                                        <p class="card-text text-muted">Ссылки на дополнительные ресурсы:</p>
+                                        <ul>
+                                            {% for link in project.links %}    
+                                                <li>
+                                                    <a href="{{ link }}" class="btn-link">{{ link }}</a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                    <a target="_blank" href="{{ project.site }}" class="btn btn-primary">Посмотреть проект</a>
                                 </div>
                             </div>
                         </div>
@@ -58,5 +64,26 @@
                 </div>
             </div>
         </div>
+    </article>
+    <article class="panel news-panel">
+        <div class="wrap mt-5">
+            <div class="container">
+                <h2 class="h2 text-center">Новости</h2>
+                <p class="text-center mt-3">Самое важное и актуальное</p>
+                <div class="row mt-5">
+                    {% for news in newses %}    
+                        <div class="col-12 col-md-4">
+                            <div class="card">
+                                <img src="{{ storage(news.image) }}" alt="{{ news.title }}">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ news.title }}</h5>
+                                    <p class="card-text">{{ news.description }}</p>       
+                                    <a href="{{ route('news.show', {news: news.id}) }}" class="btn btn-primary">Подробнее</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
     </article>
 {% endblock %}

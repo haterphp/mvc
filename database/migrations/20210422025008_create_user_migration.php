@@ -24,6 +24,7 @@ final class CreateUserMigration extends AbstractMigration
             ->addColumn('email', 'string')
             ->addColumn('password', 'string')
             ->addColumn('role_id', 'integer')
+            ->addColumn('is_banned', 'integer', ['default' => 0])
             ->addIndex(['email'], ['unique' => true])
             ->addForeignKey('role_id', 'roles', 'id', ['delete' => 'CASCADE'])
             ->create();

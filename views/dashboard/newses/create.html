@@ -3,14 +3,14 @@
 {% set errors = session('errors') %}
 
 {% block header %}
-    <h1 class="h2">Добавление проекта</h1>
+    <h1 class="h2">Добавление новости</h1>
 {% endblock %}
 
 {% block content %}
 <div class="wrap">
     <div class="row">
         <div class="col-md-6 col-12">
-            <form action="{{ route('dashboard.projects.store') }}" method="POST">
+            <form action="{{ route('dashboard.newses.store') }}" enctype="multipart/form-data" method="POST">
                 <div class="form-group">
                     <label>Название</label>            
                     <input type="text" class="form-control {% if errors.title %} is-invalid {% endif %}" name="title">
@@ -22,17 +22,13 @@
                     <small class="invalid-feedback">{{ errors.description }}</small>
                 </div>
                 <div class="form-group">
-                    <label>Ссылка на сайт</label>            
-                    <input type="text" class="form-control {% if errors.site %} is-invalid {% endif %}" name="site">
-                    <small class="invalid-feedback">{{ errors.site }}</small>
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input {% if errors.file %} is-invalid {% endif %}" name="file" id="customFile">
+                        <label class="custom-file-label" for="customFile">Выберете файл</label>
+                        <small class="invalid-feedback">{{ errors.file }}</small>
+                      </div>
                 </div>
-                <div class="form-group">
-                    <label>Дополнительные ссылки</label>            
-                    <input type="text" class="form-control {% if errors.links %} is-invalid {% endif %}" name="links">
-                    <small class="form-text text-muted">Вводите дополнительные ссылки через `;`</small>
-                    <small class="invalid-feedback">{{ errors.links }}</small>
-                </div>
-                <button class="btn btn-success">Добавить проект</button>
+                <button class="btn btn-success">Добавить новость</button>
             </form>
         </div>
     </div>

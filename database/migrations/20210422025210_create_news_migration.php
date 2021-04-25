@@ -22,7 +22,7 @@ final class CreateNewsMigration extends AbstractMigration
         $table
             ->addColumn('title', 'string')
             ->addColumn('description', 'string')
-            ->addColumn('image', 'string')
+            ->addColumn('image', 'string', ['null' => true])
             ->addTimestamps()
             ->create();
     }

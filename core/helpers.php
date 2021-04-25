@@ -15,6 +15,16 @@ function dd($data){
     die();
 }
 
+function generateRandomString($length = 10) {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+}
+
 function collect($array){
     return new Core\Collection\Collection($array);
 }
@@ -34,7 +44,7 @@ function route($name, $params = null){
     global $app;
     $route = $app->router()->getRoutes()->search('name', $name)->first();
 
-    if(!$route) throw new Exception('Route not round');
+    if(!$route) throw new Exception("Route $name not round");
 
     $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
     
@@ -86,10 +96,16 @@ function view($template, $body = []){
         return can($ability);
     });
 
+    $storage_func = new \Twig\TwigFunction('storage', function($path){
+        $protocol = stripos($_SERVER['SERVER_PROTOCOL'],'https') === 0 ? 'https://' : 'http://';
+        return $protocol . HOST_URI  . '/storage/' . $path;
+    });
+
     $twig->addFunction($route_func);
     $twig->addFunction($session_func);
     $twig->addFunction($auth_func);
     $twig->addFunction($can_func);
+    $twig->addFunction($storage_func);
 
     $twig->addExtension(new \Twig\Extension\DebugExtension());
     $temp = $twig->load($template . '.html');

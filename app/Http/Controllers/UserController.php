@@ -16,7 +16,7 @@ class UserController extends Controller {
 
     public function update(Request $request)
     {
-        if(!Auth::attempt($request->only('email', 'password'))){
+        if(!User::login($request->only('email', 'password'))){
             return redirect(route('login'))->with('alert', [
                 'status' => 'danger',
                 'message' => 'Не верный логин или пароль'
@@ -48,6 +48,8 @@ class UserController extends Controller {
             'password' => password_hash($request->get('password'), PASSWORD_DEFAULT),
             'role_id' => 2,
         ]);
+
+        User::login($request->only('email', 'password'));
 
         return redirect(route('home'));
     }

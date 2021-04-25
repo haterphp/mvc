@@ -1,9 +1,9 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use \Core\Router\Router;
 use \App\Http\Controllers\SiteController;
 use \App\Http\Controllers\UserController;
-use \App\Http\Controllers\Dashboard\ProjectController as DashboardProjectController;
 
 Router::get('/', [SiteController::class, 'index'])->name('home');
 
@@ -15,24 +15,7 @@ Router::post('register', [UserController::class, 'store'])->name('register.store
 
 Router::get('logout', [UserController::class, 'logout'])->name('logout')->middleware('auth');
 
-Router::get('dashboard/projects', [DashboardProjectController::class, 'index'])->name('dashboard.projects')->middleware('auth', 'can:admin');
+Router::get('news', [SiteController::class, 'news'])->name('news.show');
 
-Router::get('dashboard/projects/create', [DashboardProjectController::class, 'create'])
-    ->name('dashboard.projects.create')
-    ->middleware('auth', 'can:admin');
-
-Router::post('dashboard/projects', [DashboardProjectController::class, 'store'])
-    ->name('dashboard.projects.store')
-    ->middleware('auth', 'can:admin');
-
-Router::get('dashboard/projects/delete', [DashboardProjectController::class, 'delete'])
-    ->name('dashboard.projects.delete')
-    ->middleware('auth', 'can:admin');
-
-Router::get('dashboard/projects/edit', [DashboardProjectController::class, 'edit'])
-    ->name('dashboard.projects.edit')
-    ->middleware('auth', 'can:admin');
-
-Router::post('dashboard/projects/edit', [DashboardProjectController::class, 'update'])
-    ->name('dashboard.projects.update')
-    ->middleware('auth', 'can:admin');
+Router::post('comment', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
+Router::get('comment/ban', [CommentController::class, 'ban'])->name('comment.ban')->middleware('auth', 'can:admin');

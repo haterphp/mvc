@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Core\Auth\Auth;
 use Core\Model\Model;
 
 class User extends Model{
@@ -12,6 +13,12 @@ class User extends Model{
         'username',
         'email',
         'password',
-        'role_id'
+        'role_id',
+        'is_banned'
     ];
+
+    public static function login($credits)
+    {
+        return Auth::attempt($credits);
+    }
 }

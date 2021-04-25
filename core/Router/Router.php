@@ -41,9 +41,14 @@ class Router extends BaseRouter implements RouterInterface {
         
         $route = $route->first();
 
+
         if(!$this->startMiddlewares($route)) throw new \Exception('Request not authorized');
         if(isset($route->handler)) echo call_user_func($route->handler, new Request());
-        else echo call_user_func([new $route->controller, $route->action], new Request());
+        else {
+            if(!class_exists($route->controller)) throw new \Exception("Controller $route->controller not found.");
+            if(!method_exists($route->controller, $route->action)) throw new \Exception("Method $route->action not found in $route->controller.");
+            echo call_user_func([new $route->controller, $route->action], new Request());
+        }
     }
 
     public function startMiddlewares($route)

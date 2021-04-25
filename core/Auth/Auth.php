@@ -22,6 +22,7 @@ class Auth{
         $user = $model::query()->where($other->toArray() + [$username => $credentials[$username]])->first();
 
         if(!$user or !password_verify($credentials['password'], $user['password'])) return false;
+        if($user['is_banned']) return false;
         Session::set('id', $user['id']);
         return true;
     }
@@ -50,7 +51,9 @@ class Auth{
         $id = Session::get('id');
         if($id === null) return false;
         $model = $app->configs()['auth']['model'];
-        return $model::query()->where(['id' => $id])->count();
+        $user = $model::query()->where(['id' => $id])->first();
+        if($user['is_banned']) Session::clear('id');    
+        return $user && !$user['is_banned'];
     }
 
     public static function logout()

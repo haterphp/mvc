@@ -19,3 +19,4 @@ Router::get('news', [SiteController::class, 'news'])->name('news.show');
 
 Router::post('comment', [CommentController::class, 'store'])->name('comment.store')->middleware('auth');
 Router::get('comment/ban', [CommentController::class, 'ban'])->name('comment.ban')->middleware('auth', 'can:admin');
+Router::get('comment/delete', [CommentController::class, 'delete'])->name('comment.delete')->middleware('auth');

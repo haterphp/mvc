@@ -34,4 +34,17 @@ class CommentController extends Controller{
             'message' => 'Комментарий успешно заблокирован'
         ]);
     }
+
+    public function delete(Request $request)
+    {
+        $id = $request->get('comment');
+
+        Comment::query()->where(compact('id'))->delete();
+
+        return redirect(route('news.show', ['news' => $request->get('news')]))->with('alert', [
+            'status' => 'success',
+            'message' => 'Комментарий успешно удален'
+        ]);
+    }
+ 
 }

@@ -41,11 +41,15 @@ class SiteController extends Controller{
             'user' => [
                 'news_id' => $id,
                 'is_blocked' => 0
+            ],
+            'other' => [
+                'news_id' => $id,
+                'is_blocked' => 0
             ]
         ];
 
         $user = Auth::init()->user();
-        $ability = Role::query()->where(['id' => $user['role_id']])->first()['name'];
+        $ability = $user ? Role::query()->where(['id' => $user['role_id']])->first()['name'] : 'other';
         $comments = $query->where($orderWithAbility[$ability])->get();
         
         $comments = collect(array_reverse($comments))->map(function($comment){
